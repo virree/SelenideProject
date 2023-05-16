@@ -4,6 +4,8 @@ import com.codeborne.selenide.Condition;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
@@ -43,7 +45,9 @@ public class Transcript {
 
         open("https://www.ltu.se/");
         WebDriverRunner.getWebDriver().manage().window().maximize();
-
+        String expectedTitle = "Luleå tekniska universitet, LTU";
+        String actualTitle = title();
+        assertEquals(expectedTitle, actualTitle);
 
 
         $(byXpath("//*[@id=\"CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll\"]")).click();
@@ -51,12 +55,15 @@ public class Transcript {
         $(byXpath("//*[@id=\"main-nav\"]/div[3]/div/a[1]")).click();
         //Navigate onwards towards transcripts.
         $(byXpath("//*[@id=\"maincontent\"]/div[1]/div/div[2]/div/div/div/div/ul/li[1]/a/div")).click();
+
+
         // Click the "find your institution" button.
         $(byXpath("/html/body/ladok-root/div/main/div/ladok-inloggning/div/div/div/div/div/div/div/ladok-student/div[1]/a/div/div[2]/span[2]")).click();
         // Search for LTU.
         $(byXpath("//*[@id=\"searchinput\"]")).setValue("ltu");
         //click on the search-result.
         $(byXpath("//*[@id=\"ds-search-list\"]/a/li/div/div[1]")).click();
+
 
         try {
             //Create the objectmapper and readability for the json-file containing credentials.
@@ -118,6 +125,9 @@ public class Transcript {
 
         open("https://www.ltu.se/");
         WebDriverRunner.getWebDriver().manage().window().maximize();
+        String expectedTitle = "Luleå tekniska universitet, LTU";
+        String actualTitle = title();
+        assertEquals(expectedTitle, actualTitle);
 
         $(byXpath("//*[@id=\"CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll\"]")).click();
         //Navigate onwards to "Student".
