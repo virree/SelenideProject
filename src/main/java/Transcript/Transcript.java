@@ -5,17 +5,17 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.*;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
-
-
 
 
 public class Transcript {
@@ -39,7 +39,7 @@ public class Transcript {
     }
 
     @Test
-    public void testDownloadTranscript() {
+    public void testDownloadTranscript() throws FileNotFoundException {
 
         open("https://www.ltu.se/");
         WebDriverRunner.getWebDriver().manage().window().maximize();
@@ -82,6 +82,22 @@ public class Transcript {
 
         //Click on the created Transcript to download it.
         $(byXpath("//*[@id=\"main\"]/div/ladok-intyg/ladok-listning-av-skapade-intyg/div/div/ladok-accordion/div/ladok-list-kort[1]/div/div[1]/div/div[1]/a")).click();
+
+        SelenideElement downloadButton = $(byXpath("//*[@id=\"main\"]/div/ladok-intyg/ladok-listning-av-skapade-intyg/div/div/ladok-accordion/div/ladok-list-kort[1]/div/div[1]/div/div[1]/a"));
+        if (downloadButton.exists()) {
+            System.out.println("You successfully downloaded the transcript");
+        } else {
+            System.out.println("Error downloading the transcript");
+        }
+
+        // Download the transcript and move it to the target folder
+        File downloadedFile = downloadButton.download();
+        File targetFolder = new File("target");
+        downloadedFile.renameTo(new File(targetFolder, "intyg.pdf"));
+
+        // Print a success message
+        System.out.println("Transcript downloaded and moved to the target folder.");
+
 
         //Log out
         $(byXpath("//*[@id=\"sidomeny\"]/div[1]/ul[3]/li/a")).click();
